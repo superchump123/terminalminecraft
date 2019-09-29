@@ -1,8 +1,3 @@
-'''I will be writing this project in multiple different langauges, as
-I think it will be a good miniature project each language I learn.
-I will attempt to make the program structure as similar as possible across
-all languages this project is written in.'''
-
 import commands
 
 hotbar = [{'full': False, 'item_name': '', 'amount': 0} for s in range(9)]
