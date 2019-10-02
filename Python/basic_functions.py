@@ -17,3 +17,11 @@ def get_available_slot(hotbar):
             return empty_slot - 1
         else:
             empty_slot += 1
+
+
+def ask_to_play():
+    play = input('"play" minecraft? (y/n): ').lower()
+    if play == 'y':
+        return True
+    else:
+        return False

@@ -1,4 +1,4 @@
-import basic_functions
+import basic_functions as bf
 import json
 import random
 
@@ -11,6 +11,8 @@ def help():
                  'add -- add items to an existing slot',
                  'creeper -- special secret command',
                  'random -- adds a random item & random amount to your hotbar',
+                 'quit -- exit program',
+                 'show args -- shows optional cli arguments to use when running program',
                  ]
     print('Here are the options:\n')
     for o in sorted(help_list):
@@ -19,7 +21,7 @@ def help():
 
 
 def give(hotbar):
-    hotbar_full = basic_functions.check_full(hotbar)
+    hotbar_full = bf.check_full(hotbar)
 
     while not hotbar_full:
         adding_item = input('What item do you want to give? ')
@@ -31,7 +33,7 @@ def give(hotbar):
         if amount_adding > 0:
             break
 
-    available_slot = basic_functions.get_available_slot(hotbar)
+    available_slot = bf.get_available_slot(hotbar)
     try:
         hotbar[available_slot]['full'] = True
         hotbar[available_slot]['item_name'] = adding_item
@@ -77,9 +79,9 @@ def add(hotbar):
 
 
 def random_item(hotbar):
-    hotbar_full = basic_functions.check_full(hotbar)
+    hotbar_full = bf.check_full(hotbar)
 
-    available_slot = basic_functions.get_available_slot(hotbar)
+    available_slot = bf.get_available_slot(hotbar)
     with open('items.json', 'r') as file:
         items = json.load(file)
         try:
@@ -94,6 +96,11 @@ def random_item(hotbar):
             print(s)
 
         return hotbar
+
+
+def show_args():
+    print('args:')
+    print('    -y -- auto runs the main program loop')
 
 
 def quit():

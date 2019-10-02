@@ -1,13 +1,17 @@
+import basic_functions as bf
 import commands
+import sys
 
 hotbar = [{'full': False, 'item_name': '', 'amount': 0} for s in range(9)]
 
-play = input('"play" minecraft? (y/n): ').lower()
-if play == 'y':
-    run = True
+if len(sys.argv) >= 2:
+    if sys.argv[1] == '-y':
+        run = True
+    else:
+        print('Incorrect argument supplied (try -y?)')
+        run = False
 else:
-    run = False
-
+    run = bf.ask_to_play()
 
 while run:
     command = input(
@@ -39,6 +43,9 @@ while run:
 
     elif command == 'random item':
         hotbar = commands.random_item(hotbar)
+
+    elif command == 'show args':
+        commands.show_args()
 
     else:
         print('Not a valid command.  Type help for a list of commands.\n')
