@@ -1,4 +1,6 @@
 import basic_functions
+import json
+import random
 
 
 def help():
@@ -8,6 +10,7 @@ def help():
                  'see -- displays the hotbar in all its glory',
                  'add -- add items to an existing slot',
                  'creeper -- special secret command',
+                 'random -- adds a random item & random amount to your hotbar',
                  ]
     print('Here are the options:\n')
     for o in sorted(help_list):
@@ -71,6 +74,26 @@ def add(hotbar):
     hotbar[to_add]['amount'] += adding_amount
 
     return hotbar
+
+
+def random_item(hotbar):
+    hotbar_full = basic_functions.check_full(hotbar)
+
+    available_slot = basic_functions.get_available_slot(hotbar)
+    with open('items.json', 'r') as file:
+        items = json.load(file)
+        try:
+            hotbar[available_slot]['full'] = True
+            hotbar[available_slot]['item_name'] = random.choice(items)
+            hotbar[available_slot]['amount'] = random.randint(1, 65)
+        except (IndexError, TypeError):
+            hotbar_full = True
+            print('\nHotbar is full.  Please enter a different command.')
+
+        for s in hotbar:
+            print(s)
+
+        return hotbar
 
 
 def quit():

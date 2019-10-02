@@ -37,5 +37,8 @@ while run:
         man = 'MANNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         print(f'{aww}\n{man}!!!!!!!!')
 
+    elif command == 'random item':
+        hotbar = commands.random_item(hotbar)
+
     else:
         print('Not a valid command.  Type help for a list of commands.\n')
