@@ -13,6 +13,7 @@ def help():
                  'random -- adds a random item & random amount to your hotbar',
                  'quit -- exit program',
                  'show args -- shows optional cli arguments to use when running program',
+                 'move -- moves the items of one slot to different empty slot',
                  ]
     print('Here are the options:\n')
     for o in sorted(help_list):
@@ -29,18 +30,31 @@ def give(hotbar):
             break
 
     while not hotbar_full:
-        amount_adding = int(input('How many of that item do you want? '))
+        amount_adding = 0
+        while amount_adding > 64 or amount_adding >= 0:
+            amount_adding = int(
+                input('How many of that item do you want (up to 64)? '))
+            if amount_adding <= 64:
+                break
+
+            elif amount_adding < 0:
+                continue
+
         if amount_adding > 0:
             break
 
-    available_slot = bf.get_available_slot(hotbar)
-    try:
-        hotbar[available_slot]['full'] = True
-        hotbar[available_slot]['item_name'] = adding_item
-        hotbar[available_slot]['amount'] = amount_adding
-    except (IndexError, TypeError):
-        hotbar_full = True
-        print('\nHotbar is full.  Please enter a different command.')
+    if not hotbar_full:
+        for s in hotbar:
+            if not s['full']:
+                s['item_name'] = adding_item
+                s['amount'] = amount_adding
+                s['full'] = True
+                break
+
+            else:
+                continue
+    else:
+        print('Hotbar is full.  Try another command?')
 
     for s in hotbar:
         print(s)
@@ -56,6 +70,8 @@ def remove(hotbar):
 
     for s in hotbar:
         print(s)
+
+    return hotbar
 
 
 def add(hotbar):
@@ -81,16 +97,20 @@ def add(hotbar):
 def random_item(hotbar):
     hotbar_full = bf.check_full(hotbar)
 
-    available_slot = bf.get_available_slot(hotbar)
     with open('items.json', 'r') as file:
         items = json.load(file)
-        try:
-            hotbar[available_slot]['full'] = True
-            hotbar[available_slot]['item_name'] = random.choice(items)
-            hotbar[available_slot]['amount'] = random.randint(1, 65)
-        except (IndexError, TypeError):
-            hotbar_full = True
-            print('\nHotbar is full.  Please enter a different command.')
+        if not hotbar_full:
+            for s in hotbar:
+                if not s['full']:
+                    s['item_name'] = random.choice(items)
+                    s['amount'] = random.randint(1, 65)
+                    s['full'] = True
+                    break
+
+                else:
+                    continue
+        else:
+            print('Hotbar is full.  Try another command?')
 
         for s in hotbar:
             print(s)
@@ -105,3 +125,43 @@ def show_args():
 
 def quit():
     return False
+
+
+def move(hotbar):
+    slot_moving = 1
+    while slot_moving > 0 and slot_moving < 10:
+        slot_moving = int(input('What slot do you want to move? '))
+        if slot_moving > 0 and slot_moving < 10:
+            break
+    slot_moving -= 1
+
+    where_moving = 1
+    while where_moving > 0 and where_moving < 10:
+        where_moving = int(
+            input('What slot do you want to move those items to? '))
+        if where_moving > 0 and where_moving < 10:
+            break
+    where_moving -= 1
+
+    if hotbar[slot_moving]['full'] and not hotbar[where_moving]['full']:
+        hotbar[where_moving]['full'] = True
+        hotbar[where_moving]['item_name'] = hotbar[slot_moving]['item_name']
+        hotbar[where_moving]['amount'] = hotbar[slot_moving]['amount']
+
+        hotbar[slot_moving]['full'] = False
+        hotbar[slot_moving]['item_name'] = ''
+        hotbar[slot_moving]['amount'] = 0
+
+    elif not hotbar[slot_moving]['full'] and not hotbar[where_moving]['full']:
+        print('The slot you wanted to move was empty.  Please try again.')
+
+    elif not hotbar[slot_moving]['full'] and hotbar[where_moving]['full']:
+        print('The slot you wanted to move those items to is full')
+
+    elif hotbar[slot_moving]['full'] and hotbar[where_moving]['full']:
+        print('The slot you wanted to move was full, and so was the slot you were moving those items to')
+
+    for s in hotbar:
+        print(s)
+
+    return hotbar

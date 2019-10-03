@@ -10,15 +10,6 @@ def check_full(hotbar):
         return False
 
 
-def get_available_slot(hotbar):
-    empty_slot = 1
-    for s in hotbar:
-        if not s['full']:
-            return empty_slot - 1
-        else:
-            empty_slot += 1
-
-
 def ask_to_play():
     play = input('"play" minecraft? (y/n): ').lower()
     if play == 'y':

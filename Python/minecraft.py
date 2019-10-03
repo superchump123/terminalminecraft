@@ -47,5 +47,8 @@ while run:
     elif command == 'show args':
         commands.show_args()
 
+    elif command == 'move':
+        hotbar = commands.move(hotbar)
+
     else:
         print('Not a valid command.  Type help for a list of commands.\n')
