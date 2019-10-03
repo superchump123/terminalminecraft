@@ -14,6 +14,7 @@ def help():
                  'quit -- exit program',
                  'show args -- shows optional cli arguments to use when running program',
                  'move -- moves the items of one slot to different empty slot',
+                 'swap -- swaps two slots',
                  ]
     print('Here are the options:\n')
     for o in sorted(help_list):
@@ -159,7 +160,38 @@ def move(hotbar):
         print('The slot you wanted to move those items to is full')
 
     elif hotbar[slot_moving]['full'] and hotbar[where_moving]['full']:
-        print('The slot you wanted to move was full, and so was the slot you were moving those items to')
+        print('The slot you wanted to move was full, and so was the slot you were moving those items to.')
+
+    for s in hotbar:
+        print(s)
+
+    return hotbar
+
+
+def swap(hotbar):
+    swaps = ''
+    while len(swaps) < 3:
+        swaps = input('What slots do you want to swap <s1 s2> ')
+        if swaps[0] and swaps[2] not in range(9):
+            print('Invalid amounts')
+        elif len(swaps) > 3:
+            print('Invalid arguments')
+        elif len(swaps) <= 2:
+            print('Invalid arguments')
+
+    swap1, swap2 = (int(swaps[0]) - 1), (int(swaps[2]) - 1)
+
+    if hotbar[swap1]['full']:
+        if hotbar[swap2]['full']:
+            temp1, temp2 = hotbar[swap1]['item_name'], hotbar[swap1]['amount']
+            hotbar[swap1]['item_name'] = hotbar[swap2]['item_name']
+            hotbar[swap1]['amount'] = hotbar[swap2]['amount']
+            hotbar[swap2]['item_name'] = temp1
+            hotbar[swap2]['amount'] = temp2
+        else:
+            print('Second slot had nothing in it.')
+    else:
+        print('First slot had nothing in it.')
 
     for s in hotbar:
         print(s)

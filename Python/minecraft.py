@@ -50,5 +50,8 @@ while run:
     elif command == 'move':
         hotbar = commands.move(hotbar)
 
+    elif command == 'swap':
+        hotbar = commands.swap(hotbar)
+
     else:
         print('Not a valid command.  Type help for a list of commands.\n')
