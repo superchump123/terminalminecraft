@@ -15,7 +15,7 @@ else:
 
 while run:
     command = input(
-        'What would you like to do? Type help for options. ').lower()
+    'What would you like to do? Type help for options. ').lower()
 
     if command == 'help':
         commands.help()
@@ -52,6 +52,9 @@ while run:
 
     elif command == 'swap':
         hotbar = commands.swap(hotbar)
+
+    elif command == 'random fill' or 'fill':
+        hotbar = commands.random_fill(hotbar)
 
     else:
         print('Not a valid command.  Type help for a list of commands.\n')

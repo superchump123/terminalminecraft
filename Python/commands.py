@@ -1,5 +1,6 @@
 import basic_functions as bf
 import json
+import os
 import random
 
 
@@ -15,6 +16,7 @@ def help():
                  'show args -- shows optional cli arguments to use when running program',
                  'move -- moves the items of one slot to different empty slot',
                  'swap -- swaps two slots',
+                 'random fill (fill) -- fills hotbar with random items'
                  ]
     print('Here are the options:\n')
     for o in sorted(help_list):
@@ -172,7 +174,7 @@ def swap(hotbar):
     swaps = ''
     while len(swaps) < 3:
         swaps = input('What slots do you want to swap <s1 s2> ')
-        if swaps[0] and swaps[2] not in range(9):
+        if int(swaps[0]) not in range(9) and int(swaps[2]) not in range(9):
             print('Invalid amounts')
         elif len(swaps) > 3:
             print('Invalid arguments')
@@ -192,6 +194,18 @@ def swap(hotbar):
             print('Second slot had nothing in it.')
     else:
         print('First slot had nothing in it.')
+
+    for s in hotbar:
+        print(s)
+
+    return hotbar
+
+
+def random_fill(hotbar):
+    for _ in range(9):
+        hotbar = random_item(hotbar)
+
+    os.system('cls')
 
     for s in hotbar:
         print(s)
