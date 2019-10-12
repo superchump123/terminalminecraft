@@ -15,7 +15,7 @@ else:
 
 while run:
     command = input(
-    'What would you like to do? Type help for options. ').lower()
+        'What would you like to do? Type help for options. ').lower()
 
     if command == 'help':
         commands.help()
